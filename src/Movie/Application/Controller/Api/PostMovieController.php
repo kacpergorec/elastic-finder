@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
-#[Route(path: '/api/movies', name: 'api_movie', methods: ['POST'])]
+#[Route(path: '/api/movies', name: 'api_movie_create', methods: ['POST'])]
 final class PostMovieController extends AbstractController
 {
     public function __construct(
