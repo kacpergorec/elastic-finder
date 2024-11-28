@@ -5,9 +5,12 @@ namespace App\Shared\Aggregate;
 
 use App\Shared\Event\DomainEventInterface;
 
-class AggregateRoot
+abstract class AggregateRoot
 {
-    protected array $domainEvents;
+    /**
+     * @var DomainEventInterface[] $domainEvents
+     */
+    protected array $domainEvents = [];
 
     public function recordDomainEvent(DomainEventInterface $event): self
     {
@@ -16,7 +19,7 @@ class AggregateRoot
         return $this;
     }
 
-    public function pullDomainEvents(): array
+    public function getDomainEvents(): array
     {
         $domainEvents = $this->domainEvents;
         $this->domainEvents = [];

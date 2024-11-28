@@ -6,7 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Uid\Uuid;
 
-class MovieFixtures extends Fixture
+final class MovieFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager): void

@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Movie\Domain\Entity;
 
+use App\Shared\Aggregate\AggregateRoot;
 use Symfony\Component\Uid\Uuid;
 
-final class Movie
+final class Movie extends AggregateRoot
 {
-    public readonly Uuid $id;
+    private Uuid $id;
 
     private ?string $description = null;
 
@@ -17,6 +18,10 @@ final class Movie
         private \DateTimeInterface $releaseDate
     )
     {
+    }
+    public function getId(): MovieId
+    {
+        return new MovieId($this->id);
     }
 
     public function getDescription(): ?string

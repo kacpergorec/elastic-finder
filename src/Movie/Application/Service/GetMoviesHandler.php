@@ -9,7 +9,7 @@ use App\Movie\Domain\Repository\MovieQueryRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class MovieProviderHandler
+final readonly class GetMoviesHandler
 {
     public function __construct(
        public MovieQueryRepositoryInterface $movieQueryRepository
@@ -20,7 +20,7 @@ final readonly class MovieProviderHandler
     /**
      * @return Movie[]
      */
-    public function __invoke(FindMoviesQuery $findMoviesQuery): array
+    public function __invoke(FindMoviesQuery $query): array
     {
         return $this->movieQueryRepository->findAll();
     }
