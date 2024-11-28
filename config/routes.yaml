@@ -1,5 +1,5 @@
-controllers:
+movie_controllers:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/Movie/Application/Controller/
+        namespace: App\Movie\Application\Controller\
     type: attribute

@@ -1,25 +1,19 @@
 <?php
-declare (strict_types=1);
+declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Movie\Domain\Entity;
 
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Uid\Uuid;
 
-#[Entity]
-class Movie extends BaseEntity
+final class Movie
 {
-    #[Column(type: 'text', nullable: true)]
+    public readonly Uuid $id;
+
     private ?string $description = null;
 
     public function __construct(
-        #[Column(type: 'string'), NotBlank]
-        private string $title,
-        #[Column(type: 'integer'), Range(min: 1, max: 5)]
-        private int    $rating,
-        #[Column(type: 'datetime')]
+        private string             $title,
+        private int                $rating,
         private \DateTimeInterface $releaseDate
     )
     {

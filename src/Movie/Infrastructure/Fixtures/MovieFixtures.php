@@ -1,56 +1,35 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\Movie\Infrastructure\Fixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 use Symfony\Component\Uid\Uuid;
 
 class MovieFixtures extends Fixture
 {
-    private ObjectManager $manager;
-
-    public function __construct()
-    {
-    }
 
     public function load(ObjectManager $manager): void
     {
-        $time = microtime(true);
+        $manager->getConnection()->executeStatement('TRUNCATE movie');
 
-        $this->manager = $manager;
-        $this->manager->getConnection()->executeStatement('TRUNCATE movie');
-
-        echo 'Truncated in ' . (microtime(true) - $time) . PHP_EOL;
-
-        $totalCount = 100000;
-        $batchSize = 10000;
+        $totalCount = 50;
+        $batchSize = 50;
 
         if ($totalCount % $batchSize !== 0) {
             throw new \InvalidArgumentException('Total count must be divisible by batch size');
         }
 
-        echo 'Creating batches...' . PHP_EOL;
-
         for ($i = 0; $i < $totalCount / $batchSize; $i++) {
             $batches[$i] = $this->createBatchSQL($batchSize);
         }
 
-        echo 'Batches created in ' . (microtime(true) - $time) . PHP_EOL;
-
-
-        echo 'Inserting batches...' . PHP_EOL;
-
-        $this->manager->getConnection()->beginTransaction();
+        $manager->getConnection()->beginTransaction();
         for ($i = 0; $i < $totalCount / $batchSize; $i++) {
-            $this->manager->getConnection()->executeStatement($batches[$i]);
-            $this->manager->flush();
+            $manager->getConnection()->executeStatement($batches[$i]);
+            $manager->flush();
         }
-        $this->manager->getConnection()->commit();
-
-        echo 'Batches inserted in ' . (microtime(true) - $time) . PHP_EOL;
+        $manager->getConnection()->commit();
     }
 
     public function createBatchSQL(int $count): string
@@ -69,12 +48,11 @@ class MovieFixtures extends Fixture
                                    ) VALUES
         SQL;
 
-        $wordList = [
-            'Adventure', 'Comedy', 'Drama', 'Horror', 'Thriller', 'Fantasy', 'Action', 'Romance', 'SciFi', 'Mystery',
-            'Family', 'Animation', 'Documentary', 'Biography', 'Crime', 'History', 'War', 'Musical', 'Western', 'Music'
-        ];
-
-        $randomTitle = function ($wordCount = 3) use ($wordList) {
+        $randomTitle = function (int $wordCount = 3) {
+            $wordList = [
+                'Adventure', 'Comedy', 'Drama', 'Horror', 'Thriller', 'Fantasy', 'Action', 'Romance', 'SciFi', 'Mystery',
+                'Family', 'Animation', 'Documentary', 'Biography', 'Crime', 'History', 'War', 'Musical', 'Western', 'Music'
+            ];
             $words = [];
             for ($i = 0; $i < $wordCount; $i++) {
                 $words[] = $wordList[array_rand($wordList)];

@@ -18,12 +18,12 @@ doctrine:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         mappings:
-            App:
-                type: attribute
+            Movie:
+                type: xml
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Movie/Infrastructure/DoctrineMapping'
+                prefix: 'App\Movie\Domain\Entity'
+                alias: Movie
         controller_resolver:
             auto_mapping: false
 
