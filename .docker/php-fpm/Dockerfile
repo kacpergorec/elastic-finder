@@ -17,7 +17,10 @@ apt-get install -y --no-install-recommends \
     npm
 
 # Install PHP extensions
-RUN docker-php-ext-install intl
+RUN docker-php-ext-install intl pdo_pgsql
+
+## Add postgresql extension
+#RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 
 # Install Composer globally
 RUN curl -s http://getcomposer.org/installer | php && \
@@ -29,9 +32,6 @@ RUN . ~/.bashrc
 
 # Symfony-specific tasks
 WORKDIR /var/www
-
-# Add default environment variables for Symfony
-ENV APP_ENV=prod
 
 # Set up default Symfony command aliases
 RUN echo '#!/bin/bash\n/usr/local/bin/php /var/www/bin/console "$@"' > /usr/bin/console && \

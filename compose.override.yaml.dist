@@ -1,0 +1,20 @@
+services:
+  database:
+    ports:
+      - "5432:5432"
+
+ #  INSTALL KIBANA IF NEEDED
+ #
+ # kibana:
+ #   image: docker.elastic.co/kibana/kibana:${KIBANA_VERSION:-8.16.1}
+ #   ports:
+ #     - ${KIBANA_PORT:-5601}:5601
+ #   networks:
+ #     - elastic-finder
+ #   depends_on:
+ #     - elasticsearch
+ #   healthcheck:
+ #     test: [ "CMD", "curl", "-f", "http://localhost:5601" ]
+ #     timeout: 20s
+ #     retries: 10
+ #     start_period: 60s

@@ -24,5 +24,6 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 /.docker/
+compose.override.yaml
 
 .idea
