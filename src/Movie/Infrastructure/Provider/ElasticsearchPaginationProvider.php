@@ -7,6 +7,7 @@ use App\Movie\Application\UseCase\DTO\MoviePaginatedResult;
 use App\Movie\Domain\Provider\PaginatedResultInterface;
 use App\Movie\Domain\Provider\PaginationProviderInterface;
 use App\Shared\DTO\PaginationData;
+use Elastica\Aggregation\DateRange;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Fuzzy;
@@ -14,11 +15,13 @@ use Elastica\Query\Term;
 use Elastica\Query\Terms;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 readonly class ElasticsearchPaginationProvider implements PaginationProviderInterface
 {
     public function __construct(
         private PaginatedFinderInterface $finder,
+        private PaginatorInterface $paginator,
     )
     {
     }
@@ -39,8 +42,8 @@ readonly class ElasticsearchPaginationProvider implements PaginationProviderInte
             }
 
             if ($value instanceof \DateTimeInterface){
-                dump($value->format('Y-m-d'));
-                $boolQuery->addMust(new Term([$key => $value->format('Y-m-d')]));
+                $boolQuery->addMust(new Query\MatchQuery($key, $value->format('Y-m-d')));
+
                 continue;
             }
 
@@ -48,20 +51,17 @@ readonly class ElasticsearchPaginationProvider implements PaginationProviderInte
         }
         $query = new Query($boolQuery);
 
-        $pagination = $this->finder->findPaginated($query,[
-            'from' => ($page - 1) * $limit,
-            'size' => $limit
-        ]);
+        $results = $this->finder->createPaginatorAdapter($query);
+        $pagination = $this->paginator->paginate($results, $page, $limit);
 
-        dd($pagination->getIterator());
-//        $result = new MoviePaginatedResult(
-//            data: $this->finder->findPaginated($options)->getIterator(),
-//            paginationData: new PaginationData(
-//                total: $this->finder->findPaginated($options)->getNbResults(),
-//                limit: $limit,
-//                currentPage: $page,
-//                lastPage: (int) ceil($this->finder->findPaginated($options)->getNbResults() / $limit)
-//            )
-//        );
+        return new MoviePaginatedResult(
+            data: $pagination->getItems(),
+            paginationData: new PaginationData(
+                total: $pagination->getTotalItemCount(),
+                limit: $limit,
+                currentPage: $page,
+                lastPage: $pagination->getPageCount()
+            )
+        );
     }
 }

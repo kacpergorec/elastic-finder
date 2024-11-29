@@ -6,6 +6,7 @@ namespace App\Movie\Application\Controller\Api;
 use App\Movie\Application\Controller\Api\Request\GetMoviesRequest;
 use App\Movie\Application\Controller\Api\Response\MovieListResponse;
 use App\Movie\Application\UseCase\Query\FindMoviesQuery;
+use App\Movie\Domain\Provider\PaginatedResultInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ final class GetMoviesController extends AbstractController
         ?GetMoviesRequest $request = new GetMoviesRequest(),
     ): Response
     {
-        /** @var PaginationInterface $movies */
+        /** @var PaginatedResultInterface $movies */
         $movies = $this->handle(
             FindMoviesQuery::fromRequest($request)
         );

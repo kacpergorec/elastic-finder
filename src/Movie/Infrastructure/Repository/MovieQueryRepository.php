@@ -34,8 +34,15 @@ final class MovieQueryRepository extends ServiceEntityRepository implements Movi
                 continue;
             }
 
-            $qb->andWhere("LOWER(m.$field) LIKE LOWER(:$field)")
-                ->setParameter($field, '%' . $value . '%');
+            if (is_string($value)) {
+                $qb->andWhere("LOWER(m.$field) LIKE LOWER(:$field)")
+                    ->setParameter($field, '%' . $value . '%');
+            }
+
+            if (is_numeric($value)) {
+                $qb->andWhere("m.$field = :$field")
+                    ->setParameter($field, $value);
+            }
         }
 
         return $qb->getQuery();

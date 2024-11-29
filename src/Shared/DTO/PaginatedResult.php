@@ -3,6 +3,8 @@ declare (strict_types=1);
 
 namespace App\Shared\DTO;
 
+use App\Movie\Domain\Provider\PaginatedResultInterface;
+
 trait PaginatedResult
 {
     public function __construct(
@@ -21,5 +23,13 @@ trait PaginatedResult
     public function getPaginationData(): PaginationData
     {
         return $this->paginationData;
+    }
+
+    public static function fromPagination(PaginatedResultInterface $paginatedResult): self
+    {
+        return new self(
+            data: $paginatedResult->getData(),
+            paginationData: $paginatedResult->getPaginationData()
+        );
     }
 }

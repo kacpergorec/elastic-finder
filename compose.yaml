@@ -33,6 +33,8 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION:-8.16.1}
     environment:
       discovery.type: single-node
+      xpack.security.enabled: false
+      xpack.security.enrollment.enabled: false
     ports:
       - ${ELASTICSEARCH_PORT:-9200}:9200
     networks:

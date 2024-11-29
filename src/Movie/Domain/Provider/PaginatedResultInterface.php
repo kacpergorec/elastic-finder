@@ -10,4 +10,6 @@ interface PaginatedResultInterface
     public function getData(): array;
 
     public function getPaginationData(): PaginationData;
+
+    public static function fromPagination(PaginatedResultInterface $paginatedResult): self;
 }

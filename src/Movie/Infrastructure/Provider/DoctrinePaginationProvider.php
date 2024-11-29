@@ -8,7 +8,6 @@ use App\Movie\Domain\Provider\PaginatedResultInterface;
 use App\Movie\Domain\Provider\PaginationProviderInterface;
 use App\Movie\Domain\Repository\MovieQueryRepositoryInterface;
 use App\Shared\DTO\PaginationData;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 class DoctrinePaginationProvider implements PaginationProviderInterface
