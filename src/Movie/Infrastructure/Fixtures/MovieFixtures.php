@@ -13,8 +13,8 @@ final class MovieFixtures extends Fixture
     {
         $manager->getConnection()->executeStatement('TRUNCATE movie');
 
-        $totalCount = 50;
-        $batchSize = 50;
+        $totalCount = 100000;
+        $batchSize = 5000;
 
         if ($totalCount % $batchSize !== 0) {
             throw new \InvalidArgumentException('Total count must be divisible by batch size');
