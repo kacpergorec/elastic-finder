@@ -1,9 +1,9 @@
 <?php
 declare (strict_types=1);
 
-namespace App\Movie\Application\Service;
+namespace App\Movie\Application\UseCase\Handler;
 
-use App\Movie\Application\Model\CreateMovieCommand;
+use App\Movie\Application\UseCase\Command\CreateMovieCommand;
 use App\Movie\Domain\Entity\Movie;
 use App\Movie\Domain\Event\MovieCreatedEvent;
 use App\Movie\Domain\Repository\MovieRepositoryInterface;

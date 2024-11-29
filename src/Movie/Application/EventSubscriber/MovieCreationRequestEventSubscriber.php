@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace App\Movie\Application\EventSubscriber;
 
 use App\Movie\Application\Event\OnMovieCreationRequestEvent;
-use App\Movie\Application\Model\CreateMovieCommand;
+use App\Movie\Application\UseCase\Command\CreateMovieCommand;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 

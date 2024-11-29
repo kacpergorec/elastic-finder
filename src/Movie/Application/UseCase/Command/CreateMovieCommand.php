@@ -1,7 +1,7 @@
 <?php
 declare (strict_types=1);
 
-namespace App\Movie\Application\Model;
+namespace App\Movie\Application\UseCase\Command;
 
 final readonly class CreateMovieCommand
 {

@@ -5,12 +5,11 @@ namespace App\Movie\Application\Controller\Api;
 
 use App\Movie\Application\Controller\Api\Request\GetMoviesRequest;
 use App\Movie\Application\Controller\Api\Response\MovieListResponse;
-use App\Movie\Application\Model\FindMoviesQuery;
+use App\Movie\Application\UseCase\Query\FindMoviesQuery;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -23,14 +22,16 @@ final class GetMoviesController extends AbstractController
 {
     use HandleTrait;
 
-    public function __construct(MessageBusInterface $messageBus)
+    public function __construct(
+        MessageBusInterface $messageBus,
+    )
     {
         $this->messageBus = $messageBus;
     }
 
     public function __invoke(
         #[MapQueryString]
-        ?GetMoviesRequest $request = new GetMoviesRequest()
+        ?GetMoviesRequest $request = new GetMoviesRequest(),
     ): Response
     {
         /** @var PaginationInterface $movies */
