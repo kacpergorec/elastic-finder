@@ -12,14 +12,14 @@ abstract class AggregateRoot
      */
     protected array $domainEvents = [];
 
-    public function recordDomainEvent(DomainEventInterface $event): self
+    final protected function raise(DomainEventInterface $event): self
     {
         $this->domainEvents[] = $event;
 
         return $this;
     }
 
-    public function getDomainEvents(): array
+    final public function pullEvents(): array
     {
         $domainEvents = $this->domainEvents;
         $this->domainEvents = [];

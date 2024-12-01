@@ -14,8 +14,18 @@ abstract class AggregateRootId
         $this->uuid = $uuid;
     }
 
+    public function toUuid(): Uuid
+    {
+        return $this->uuid;
+    }
+
     public function __toString(): string
     {
         return $this->uuid->toString();
+    }
+
+    public static function new() : self
+    {
+        return new static(Uuid::v7());
     }
 }

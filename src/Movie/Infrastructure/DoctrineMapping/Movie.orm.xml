@@ -5,11 +5,8 @@
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="App\Movie\Domain\Entity\Movie" table="movie">
-        <id name="id" type="uuid" column="id">
-            <generator strategy="CUSTOM"/>
-            <custom-id-generator class="Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator"/>
-        </id>
 
+        <id name="id" type="uuid" column="id"/>
         <field name="title" type="string" nullable="false"/>
         <field name="rating" type="integer" nullable="false"/>
         <field name="releaseDate" type="date" nullable="false"/>

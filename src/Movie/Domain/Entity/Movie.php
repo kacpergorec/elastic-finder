@@ -3,22 +3,36 @@ declare(strict_types=1);
 
 namespace App\Movie\Domain\Entity;
 
+use App\Movie\Domain\Event\MovieCreatedEvent;
 use App\Shared\Aggregate\AggregateRoot;
 use Symfony\Component\Uid\Uuid;
 
 final class Movie extends AggregateRoot
 {
-    private Uuid $id;
-
     private ?string $description = null;
 
     public function __construct(
+        private Uuid               $id,
         private string             $title,
         private int                $rating,
         private \DateTimeInterface $releaseDate
     )
     {
     }
+
+    public static function create(
+        MovieId            $id,
+        string             $title,
+        int                $rating,
+        \DateTimeImmutable $releaseDate
+    ): self
+    {
+        $document = new self($id->toUuid(), $title, $rating, $releaseDate);
+        $document->raise(new MovieCreatedEvent($id));
+
+        return $document;
+    }
+
     public function getId(): MovieId
     {
         return new MovieId($this->id);
